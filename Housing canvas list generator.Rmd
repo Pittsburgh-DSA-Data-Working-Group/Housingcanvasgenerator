@@ -1,0 +1,32 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+```{r}
+library(tidyverse)
+```
+#Import in data
+```{r}
+allegheny_county_master_file <- read_csv("allegheny_county_master_file.csv")
+Property <- allegheny_county_master_file
+#str(Property)
+```
+#Filter out commercial properties
+```{r}
+Resproperties <- Property %>% filter(CLASSDESC == "RESIDENTIAL") %>% group_by(PROPERTYZIP)
+
+#Filter by Zip
+Resproperties <- Resproperties %>% filter(PROPERTYZIP == 15232)
+head(Resproperties)
+
+```
+
+Let's make a useable list for canvasing responses.
+
+```{r}
+Canvaslist <- subset(Resproperties, select = c(PROPERTYHOUSENUM, PROPERTYFRACTION, PROPERTYADDRESS, PROPERTYCITY, PROPERTYSTATE, PROPERTYUNIT, PROPERTYZIP, NEIGHDESC))
+Canvaslist[ , 'Canvas Response'] = NA
+
+#write.csv(Canvaslist, "Canvaslist.csv")
+```
+
